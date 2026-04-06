@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Card, CardMedia, CardContent, IconButton, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Product } from "../../data/products";
+import type { Product } from "../../data/products";
 
 interface ProductCardProps {
   product: Product;

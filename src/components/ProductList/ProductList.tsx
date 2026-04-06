@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { Product } from "../../data/products";
+import type { Product } from "../../data/products";
 import ProductCard from "../ProductCard/ProductCard";
 import Counter from "../Counter/Counter";
 

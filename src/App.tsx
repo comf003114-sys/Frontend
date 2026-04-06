@@ -1,21 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Box } from "@mui/material";
-import { products as mockProducts, Product, } from "./data/products";
+import { products as mockProducts } from "./data/products";
+import type { Product } from "./data/products";
 import Menu from "./components/Menu/Menu";
 import ProductList from "./components/ProductList/ProductList";
-import FilterButtons, { PriceFilter } from "./components/FilterButtons/FilterButtons";
+import FilterButtons from "./components/FilterButtons/FilterButtons";
+import type { PriceFilter } from "./components/FilterButtons/FilterButtons";
 
 function App() {
   const [search, setSearch] = useState<string>("");
   const [priceFilter, setPriceFilter] = useState<PriceFilter>("all");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
   const [allProducts] = useState<Product[]>(mockProducts);
 
   const filteredProducts = allProducts
-    .filter((p) =>
-      p.name.toLowerCase().includes(search.toLowerCase())
-    )
+    .filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
     .filter((p) => {
       if (priceFilter === "cheap") return p.price < 100;
       if (priceFilter === "medium") return p.price >= 100 && p.price <= 200;
@@ -30,8 +28,8 @@ function App() {
         <FilterButtons active={priceFilter} onChange={setPriceFilter} />
         <ProductList
           products={filteredProducts}
-          loading={loading}
-          error={error}
+          loading={false}
+          error={null}
         />
       </Box>
     </Box>
