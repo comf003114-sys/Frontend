@@ -1,19 +1,22 @@
 import { Box, Typography } from "@mui/material";
 import SearchBar from "../SearchBar/SearchBar";
-import { useState } from "react";
 
-const Menu = () => {
-  const [search, setSearch] = useState<string>("");
+interface MenuProps {
+  search: string;
+  onSearchChange: (value: string) => void;
+}
 
+const Menu = ({ search, onSearchChange }: MenuProps) => {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
+        minHeight: "40vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#1E1E20",
+        borderBottom: "2px solid #8B2331",
       }}
       py={5}
     >
@@ -29,12 +32,8 @@ const Menu = () => {
       </Typography>
 
       <Box mb={3}>
-        <SearchBar value={search} onChange={setSearch} />
+        <SearchBar value={search} onChange={onSearchChange} />
       </Box>
-
-      <Typography color="#AAAAAA" fontSize="14px">
-        Введите название блюда для поиска
-      </Typography>
     </Box>
   );
 };
