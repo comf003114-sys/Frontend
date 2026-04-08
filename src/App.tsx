@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { products as mockProducts } from "./data/products";
 import type { Product } from "./data/products";
+import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
 import ProductList from "./components/ProductList/ProductList";
 import FilterButtons from "./components/FilterButtons/FilterButtons";
 import type { PriceFilter } from "./components/FilterButtons/FilterButtons";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import DishDetails from "./pages/DishDetails";
 
 function App() {
   const [search, setSearch] = useState<string>("");
@@ -21,8 +26,8 @@ function App() {
       return true;
     });
 
-  return (
-    <Box sx={{ backgroundColor: "#1E1E20", minHeight: "100vh" }}>
+  const HomePage = () => (
+    <Box pt={8}>
       <Menu search={search} onSearchChange={setSearch} />
       <Box px={4} py={3}>
         <FilterButtons active={priceFilter} onChange={setPriceFilter} />
@@ -33,6 +38,20 @@ function App() {
         />
       </Box>
     </Box>
+  );
+
+  return (
+    <BrowserRouter>
+      <Box sx={{ backgroundColor: "#1E1E20", minHeight: "100vh" }}>
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/dishes/:id" element={<DishDetails />} />
+          <Route path="/login" element={<SignIn />} />
+          <Route path="/register" element={<SignUp />} />
+        </Routes>
+      </Box>
+    </BrowserRouter>
   );
 }
 
