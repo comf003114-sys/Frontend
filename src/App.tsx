@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { products as mockProducts } from "./data/products";
 import type { Product } from "./data/products";
+import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
 import ProductList from "./components/ProductList/ProductList";
 import FilterButtons from "./components/FilterButtons/FilterButtons";
@@ -22,17 +24,22 @@ function App() {
     });
 
   return (
-    <Box sx={{ backgroundColor: "#1E1E20", minHeight: "100vh" }}>
-      <Menu search={search} onSearchChange={setSearch} />
-      <Box px={4} py={3}>
-        <FilterButtons active={priceFilter} onChange={setPriceFilter} />
-        <ProductList
-          products={filteredProducts}
-          loading={false}
-          error={null}
-        />
+    <BrowserRouter>
+      <Box sx={{ backgroundColor: "#1E1E20", minHeight: "100vh" }}>
+        <Header />
+        <Box pt={8}>
+          <Menu search={search} onSearchChange={setSearch} />
+          <Box px={4} py={3}>
+            <FilterButtons active={priceFilter} onChange={setPriceFilter} />
+            <ProductList
+              products={filteredProducts}
+              loading={false}
+              error={null}
+            />
+          </Box>
+        </Box>
       </Box>
-    </Box>
+    </BrowserRouter>
   );
 }
 
