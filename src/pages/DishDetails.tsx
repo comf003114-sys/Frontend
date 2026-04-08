@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Box, Typography, Button, Chip, Divider } from "@mui/material";
 import ScaleOutlinedIcon from "@mui/icons-material/ScaleOutlined";
