@@ -8,6 +8,9 @@ import Menu from "./components/Menu/Menu";
 import ProductList from "./components/ProductList/ProductList";
 import FilterButtons from "./components/FilterButtons/FilterButtons";
 import type { PriceFilter } from "./components/FilterButtons/FilterButtons";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import DishDetails from "./pages/DishDetails";
 
 function App() {
   const [search, setSearch] = useState<string>("");
@@ -23,21 +26,30 @@ function App() {
       return true;
     });
 
+  const HomePage = () => (
+    <Box pt={8}>
+      <Menu search={search} onSearchChange={setSearch} />
+      <Box px={4} py={3}>
+        <FilterButtons active={priceFilter} onChange={setPriceFilter} />
+        <ProductList
+          products={filteredProducts}
+          loading={false}
+          error={null}
+        />
+      </Box>
+    </Box>
+  );
+
   return (
     <BrowserRouter>
       <Box sx={{ backgroundColor: "#1E1E20", minHeight: "100vh" }}>
         <Header />
-        <Box pt={8}>
-          <Menu search={search} onSearchChange={setSearch} />
-          <Box px={4} py={3}>
-            <FilterButtons active={priceFilter} onChange={setPriceFilter} />
-            <ProductList
-              products={filteredProducts}
-              loading={false}
-              error={null}
-            />
-          </Box>
-        </Box>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/dishes/:id" element={<DishDetails />} />
+          <Route path="/login" element={<SignIn />} />
+          <Route path="/register" element={<SignUp />} />
+        </Routes>
       </Box>
     </BrowserRouter>
   );
