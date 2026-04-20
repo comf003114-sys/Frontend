@@ -4,13 +4,17 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { products as mockProducts } from "./data/products";
 import type { Product } from "./data/products";
 import Header from "./components/Header/Header";
+import Intro from "./components/Intro/Intro";
+import About from "./components/About/About";
 import Menu from "./components/Menu/Menu";
 import ProductList from "./components/ProductList/ProductList";
 import FilterButtons from "./components/FilterButtons/FilterButtons";
 import type { PriceFilter } from "./components/FilterButtons/FilterButtons";
+import Footer from "./components/Footer/Footer";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import DishDetails from "./pages/DishDetails";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const [search, setSearch] = useState<string>("");
@@ -27,16 +31,15 @@ function App() {
     });
 
   const HomePage = () => (
-    <Box pt={8}>
+    <Box>
+      <Intro />
+      <About />
       <Menu search={search} onSearchChange={setSearch} />
       <Box px={4} py={3}>
         <FilterButtons active={priceFilter} onChange={setPriceFilter} />
-        <ProductList
-          products={filteredProducts}
-          loading={false}
-          error={null}
-        />
+        <ProductList products={filteredProducts} loading={false} error={null} />
       </Box>
+      <Footer />
     </Box>
   );
 
@@ -49,6 +52,7 @@ function App() {
           <Route path="/dishes/:id" element={<DishDetails />} />
           <Route path="/login" element={<SignIn />} />
           <Route path="/register" element={<SignUp />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Box>
     </BrowserRouter>
