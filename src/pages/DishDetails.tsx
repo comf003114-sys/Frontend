@@ -4,6 +4,8 @@ import ScaleOutlinedIcon from "@mui/icons-material/ScaleOutlined";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { products } from "../data/products";
+import ReviewList from "../components/ReviewList/ReviewList";
+import IngredientsList from "../components/IngredientsList/IngredientsList";
 
 const DishDetails = () => {
   const { id } = useParams();
@@ -19,14 +21,12 @@ const DishDetails = () => {
 
   return (
     <Box sx={{ backgroundColor: "#1E1E20", minHeight: "100vh", pt: 10, px: 6 }}>
-      
       <Button component={Link} to="/" startIcon={<ArrowBackIcon />}
         sx={{ color: "#8B2331", mb: 3, "&:hover": { color: "#FFFFFF" } }}>
         Назад
       </Button>
 
       <Box display="flex" gap={6} flexWrap="wrap">
-        
         {/* Левая колонка */}
         <Box flex={1} minWidth="300px">
           <Typography variant="h3" color="#FFFFFF" mb={3} fontWeight={700}>
@@ -54,10 +54,19 @@ const DishDetails = () => {
 
           <Divider sx={{ borderColor: "#8B2331", mb: 3 }} />
 
-          <Chip label="Категория" sx={{ backgroundColor: "#8B2331", color: "#FFFFFF", fontSize: "16px", mb: 2 }} />
-          <Typography color="#AAAAAA" fontSize="16px">{dish.category}</Typography>
+          <Chip
+            label="Категория"
+            sx={{ backgroundColor: "#8B2331", color: "#FFFFFF", fontSize: "16px", mb: 2 }}
+          />
+          <Typography color="#AAAAAA" fontSize="16px" mb={3}>{dish.category}</Typography>
+
+          <IngredientsList dishId={dish.id} />
         </Box>
 
+        {/* Правая колонка */}
+        <Box flex={1} minWidth="300px">
+          <ReviewList dishId={dish.id} />
+        </Box>
       </Box>
     </Box>
   );
