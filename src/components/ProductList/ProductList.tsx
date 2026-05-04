@@ -8,9 +8,17 @@ interface ProductListProps {
   products: Product[];
   loading: boolean;
   error: string | null;
+  favorites: number[];
+  onToggleFavorite: (id: number) => void;
 }
 
-const ProductList: React.FC<ProductListProps> = ({ products, loading, error }) => {
+const ProductList: React.FC<ProductListProps> = ({
+  products,
+  loading,
+  error,
+  favorites,
+  onToggleFavorite,
+}) => {
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" py={5}>
@@ -41,15 +49,14 @@ const ProductList: React.FC<ProductListProps> = ({ products, loading, error }) =
           </Typography>
         </Box>
       ) : (
-        <Box
-          display="flex"
-          flexWrap="wrap"
-          gap={3}
-          justifyContent="center"
-          mt={2}
-        >
+        <Box display="flex" flexWrap="wrap" gap={3} justifyContent="center" mt={2}>
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard
+              key={product.id}
+              product={product}
+              isFavorite={favorites.includes(product.id)}
+              onToggleFavorite={onToggleFavorite}
+            />
           ))}
         </Box>
       )}

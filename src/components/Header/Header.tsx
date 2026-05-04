@@ -1,12 +1,18 @@
-import { AppBar, Toolbar, Box, Button, Typography } from "@mui/material";
+import React from "react";
+import { AppBar, Toolbar, Box, Button, Typography, Badge } from "@mui/material";
 import { Link } from "react-router-dom";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
-const Header = () => {
+interface HeaderProps {
+  favoritesCount: number;
+}
+
+const Header: React.FC<HeaderProps> = ({ favoritesCount }) => {
   return (
     <AppBar position="fixed" sx={{ backgroundColor: "#1a1a1a", borderBottom: "2px solid #8B2331" }}>
       <Toolbar sx={{ justifyContent: "space-between", px: 4 }}>
-        
+
         {/* Логотип */}
         <Typography
           variant="h5"
@@ -21,7 +27,16 @@ const Header = () => {
           <Button component={Link} to="/" sx={{ color: "#FFFFFF", "&:hover": { color: "#8B2331" } }}>
             Каталог
           </Button>
-          <Button component={Link} to="/favorites" sx={{ color: "#FFFFFF", "&:hover": { color: "#8B2331" } }}>
+          <Button
+            component={Link}
+            to="/favorites"
+            sx={{ color: "#FFFFFF", "&:hover": { color: "#8B2331" } }}
+            startIcon={
+              <Badge badgeContent={favoritesCount} color="error">
+                <FavoriteIcon sx={{ fontSize: "18px" }} />
+              </Badge>
+            }
+          >
             Избранное
           </Button>
           <Button component={Link} to="/about" sx={{ color: "#FFFFFF", "&:hover": { color: "#8B2331" } }}>

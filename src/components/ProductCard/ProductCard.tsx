@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Card, CardMedia, CardContent, IconButton, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -6,15 +6,16 @@ import type { Product } from "../../data/products";
 
 interface ProductCardProps {
   product: Product;
+  isFavorite: boolean;
+  onToggleFavorite: (id: number) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const [liked, setLiked] = useState<boolean>(false);
+const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite, onToggleFavorite }) => {
 
   const handleLike = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setLiked((prev) => !prev);
+    onToggleFavorite(product.id);
   };
 
   return (
@@ -41,7 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         }}
         size="small"
       >
-        {liked ? (
+        {isFavorite ? (
           <FavoriteIcon sx={{ color: "#8B2331", fontSize: "20px" }} />
         ) : (
           <FavoriteBorderIcon sx={{ color: "#FFFFFF", fontSize: "20px" }} />

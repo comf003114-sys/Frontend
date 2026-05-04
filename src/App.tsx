@@ -17,12 +17,21 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import DishDetails from "./pages/DishDetails";
 import NotFound from "./pages/NotFound";
+import Favorites from "./pages/Favorites";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const [search, setSearch] = useState<string>("");
   const [priceFilter, setPriceFilter] = useState<PriceFilter>("all");
   const [allProducts] = useState<Product[]>(mockProducts);
+  const [favorites, setFavorites] = useState<number[]>([]);
+
+  const toggleFavorite = (id: number) => {
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
+    );
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 2000);
@@ -38,6 +47,10 @@ function App() {
       return true;
     });
 
+  const favoriteProducts = allProducts.filter((p) =>
+    favorites.includes(p.id)
+  );
+
   const HomePage = () => (
     <Box>
       <Intro />
@@ -45,7 +58,13 @@ function App() {
       <Menu search={search} onSearchChange={setSearch} />
       <Box px={4} py={3}>
         <FilterButtons active={priceFilter} onChange={setPriceFilter} />
-        <ProductList products={filteredProducts} loading={false} error={null} />
+        <ProductList
+          products={filteredProducts}
+          loading={false}
+          error={null}
+          favorites={favorites}
+          onToggleFavorite={toggleFavorite}
+        />
       </Box>
       <Footer />
     </Box>
@@ -58,12 +77,22 @@ function App() {
           <Preloader key="preloader" />
         ) : (
           <Box sx={{ backgroundColor: "#1E1E20", minHeight: "100vh" }}>
-            <Header />
+            <Header favoritesCount={favorites.length} />
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/dishes/:id" element={<DishDetails />} />
               <Route path="/login" element={<SignIn />} />
               <Route path="/register" element={<SignUp />} />
+              <Route
+                path="/favorites"
+                element={
+                  <Favorites
+                    products={favoriteProducts}
+                    onToggleFavorite={toggleFavorite}
+                  />
+                }
+              />
+              <Route path="/about" element={<AboutPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Box>
