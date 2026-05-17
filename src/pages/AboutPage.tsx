@@ -5,34 +5,68 @@ const team = [
     name: "Нино Джавахишвили",
     role: "Шеф-повар",
     emoji: "👨‍🍳",
-    desc: "20 лет опыта в грузинской кухне. Хранитель традиционных рецептов.",
+    desc: "20 лет опыта в грузинской кухне. Хранитель традиционных рецептов и секретов настоящего хинкали.",
   },
   {
     name: "Тамара Кварацхелия",
     role: "Сомелье",
     emoji: "🍷",
-    desc: "Эксперт по грузинским винам. Подберёт идеальное сочетание к каждому блюду.",
+    desc: "Эксперт по грузинским винам. Подберёт идеальное сочетание к каждому блюду вашего вечера.",
   },
   {
     name: "Георгий Мчедлидзе",
     role: "Управляющий",
     emoji: "🤝",
-    desc: "Создаёт атмосферу тепла и гостеприимства в каждой детали.",
+    desc: "Создаёт атмосферу тепла и гостеприимства в каждой детали — от стола до улыбки.",
+  },
+  {
+    name: "Ани Беридзе",
+    role: "Кондитер",
+    emoji: "🍯",
+    desc: "Мастер грузинских сладостей: чурчхела, пахлава и домашние десерты по семейным рецептам.",
+  },
+  {
+    name: "Давид Элиава",
+    role: "Су-шеф",
+    emoji: "🔥",
+    desc: "Правая рука шефа. Отвечает за свежесть ингредиентов и точность каждого приготовленного блюда.",
+  },
+  {
+    name: "Саломе Гогия",
+    role: "Администратор",
+    emoji: "🌸",
+    desc: "Встречает гостей с улыбкой и следит за тем, чтобы каждый визит стал незабываемым.",
   },
 ];
 
 const values = [
-  { icon: "🫕", title: "Традиции", text: "Рецепты, передаваемые из поколения в поколение" },
-  { icon: "🌿", title: "Свежесть", text: "Только натуральные продукты от местных фермеров" },
-  { icon: "❤️", title: "Душа", text: "Каждое блюдо приготовлено с любовью и заботой" },
-  { icon: "🏔️", title: "Грузия", text: "Атмосфера кавказского гостеприимства" },
+  {
+    icon: "🫕",
+    title: "Традиции",
+    text: "Рецепты, передаваемые из поколения в поколение. Мы бережно сохраняем каждый секрет грузинской кухни, чтобы вы ощутили её настоящий вкус.",
+  },
+  {
+    icon: "🌿",
+    title: "Свежесть",
+    text: "Только натуральные продукты от местных фермеров. Мы закупаем ингредиенты каждое утро, чтобы каждое блюдо было максимально свежим и полезным.",
+  },
+  {
+    icon: "❤️",
+    title: "Душа",
+    text: "Каждое блюдо приготовлено с любовью и заботой. Мы верим, что еда — это не просто питание, а способ передать тепло и внимание каждому гостю.",
+  },
+  {
+    icon: "🏔️",
+    title: "Грузия",
+    text: "Атмосфера настоящего кавказского гостеприимства. Здесь вы почувствуете дух Тбилиси — шумного, тёплого и всегда рады гостям.",
+  },
 ];
 
 const AboutPage = () => {
   return (
     <Box sx={{ backgroundColor: "#1E1E20", minHeight: "100vh", color: "#fff" }}>
 
-      {/* Hero секция */}
+      {/* Hero */}
       <Box
         sx={{
           position: "relative",
@@ -54,14 +88,7 @@ const AboutPage = () => {
           },
         }}
       >
-        <Typography
-          sx={{
-            fontSize: { xs: "48px", md: "80px" },
-            lineHeight: 1,
-            mb: 2,
-            filter: "drop-shadow(0 0 30px rgba(180,120,60,0.4))",
-          }}
-        >
+        <Typography sx={{ fontSize: { xs: "48px", md: "80px" }, lineHeight: 1, mb: 2 }}>
           🍽️
         </Typography>
         <Typography
@@ -132,21 +159,21 @@ const AboutPage = () => {
 
       <Divider sx={{ borderColor: "rgba(255,255,255,0.07)", mx: 4 }} />
 
-      {/* Ценности */}
-      <Box sx={{ px: 4, py: 8, maxWidth: "1000px", mx: "auto" }}>
+      {/* Ценности — выровненные 2x2 */}
+      <Box sx={{ px: 4, py: 8, maxWidth: "1000px", mx: "auto", width: "100%" }}>
         <Typography
           sx={{
             fontSize: "12px",
             letterSpacing: "4px",
             color: "#E8C87A",
             textTransform: "uppercase",
-            mb: 2,
+            mb: 4,
             textAlign: "center",
           }}
         >
           Наши ценности
         </Typography>
-        <Grid container spacing={3} sx={{ mt: 1 }}>
+        <Grid container spacing={3}>
           {values.map((v) => (
             <Grid item xs={12} sm={6} key={v.title}>
               <Box
@@ -155,6 +182,12 @@ const AboutPage = () => {
                   border: "1px solid rgba(255,255,255,0.07)",
                   borderRadius: "16px",
                   p: 4,
+                  height: "100%",
+                  boxSizing: "border-box",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
                   transition: "border-color 0.3s, transform 0.3s",
                   "&:hover": {
                     borderColor: "rgba(232,200,122,0.3)",
@@ -162,19 +195,19 @@ const AboutPage = () => {
                   },
                 }}
               >
-                <Typography sx={{ fontSize: "36px", mb: 2 }}>{v.icon}</Typography>
+                <Typography sx={{ fontSize: "40px", mb: 2 }}>{v.icon}</Typography>
                 <Typography
                   sx={{
                     fontSize: "18px",
-                    fontWeight: 600,
+                    fontWeight: 700,
                     color: "#E8C87A",
-                    mb: 1,
+                    mb: 1.5,
                     fontFamily: "'Georgia', serif",
                   }}
                 >
                   {v.title}
                 </Typography>
-                <Typography sx={{ color: "#888", fontSize: "15px", lineHeight: 1.7 }}>
+                <Typography sx={{ color: "#888", fontSize: "15px", lineHeight: 1.8 }}>
                   {v.text}
                 </Typography>
               </Box>
@@ -185,29 +218,34 @@ const AboutPage = () => {
 
       <Divider sx={{ borderColor: "rgba(255,255,255,0.07)", mx: 4 }} />
 
-      {/* Команда */}
-      <Box sx={{ px: 4, py: 8, maxWidth: "1000px", mx: "auto" }}>
+      {/* Команда — 3 колонки, 2 ряда */}
+      <Box sx={{ px: 4, py: 8, maxWidth: "1100px", mx: "auto", width: "100%" }}>
         <Typography
           sx={{
             fontSize: "12px",
             letterSpacing: "4px",
             color: "#E8C87A",
             textTransform: "uppercase",
-            mb: 2,
+            mb: 4,
             textAlign: "center",
           }}
         >
           Наша команда
         </Typography>
-        <Grid container spacing={3} sx={{ mt: 1 }}>
+        <Grid container spacing={3}>
           {team.map((member) => (
-            <Grid item xs={12} md={4} key={member.name}>
+            <Grid item xs={12} sm={6} md={4} key={member.name}>
               <Box
                 sx={{
                   backgroundColor: "rgba(255,255,255,0.03)",
                   border: "1px solid rgba(255,255,255,0.07)",
                   borderRadius: "16px",
                   p: 4,
+                  height: "100%",
+                  boxSizing: "border-box",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                   textAlign: "center",
                   transition: "border-color 0.3s, transform 0.3s",
                   "&:hover": {
@@ -228,10 +266,18 @@ const AboutPage = () => {
                 >
                   {member.name}
                 </Typography>
-                <Typography sx={{ color: "#E8C87A", fontSize: "13px", mb: 2, letterSpacing: "1px" }}>
+                <Typography
+                  sx={{
+                    color: "#E8C87A",
+                    fontSize: "13px",
+                    mb: 2,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                  }}
+                >
                   {member.role}
                 </Typography>
-                <Typography sx={{ color: "#888", fontSize: "14px", lineHeight: 1.7 }}>
+                <Typography sx={{ color: "#888", fontSize: "14px", lineHeight: 1.8 }}>
                   {member.desc}
                 </Typography>
               </Box>
