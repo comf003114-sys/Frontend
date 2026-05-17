@@ -47,9 +47,7 @@ function App() {
       return true;
     });
 
-  const favoriteProducts = allProducts.filter((p) =>
-    favorites.includes(p.id)
-  );
+  const favoriteProducts = allProducts.filter((p) => favorites.includes(p.id));
 
   const HomePage = () => (
     <Box>
