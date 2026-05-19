@@ -1,18 +1,20 @@
 import { Box, Typography, Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const images = [
-  "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1400&h=800&fit=crop",
-  "https://images.unsplash.com/photo-1544025162-d76694265947?w=1400&h=800&fit=crop",
+  "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1920&h=1080&fit=crop",
+  "https://images.unsplash.com/photo-1544025162-d76694265947?w=1920&h=1080&fit=crop",
+  "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=1080&fit=crop",
+  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&h=1080&fit=crop",
 ];
 
 const Intro = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleScroll = () => {
-    window.scrollTo({ top: window.innerHeight + 220, behavior: "smooth" });
+    window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -23,92 +25,200 @@ const Intro = () => {
   }, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
+    <Box
+      component="section"
+      sx={{
+        width: "100vw",
+        height: "100vh",
+        position: "relative",
+        overflow: "hidden",
+        marginLeft: "calc(-50vw + 50%)",
+      }}
     >
+      <AnimatePresence>
+        <motion.div
+          key={currentImageIndex}
+          initial={{ opacity: 0, scale: 1.08 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.8 }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            backgroundImage: `url(${images[currentImageIndex]})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            zIndex: 0,
+          }}
+        />
+      </AnimatePresence>
+
       <Box
-        component="section"
         sx={{
-          height: "100vh",
-          backgroundImage: `url(${images[currentImageIndex]})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.75) 100%)",
+          zIndex: 1,
+        }}
+      />
+
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 2,
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          transition: "background-image 1s ease-in-out",
+          textAlign: "center",
+          px: 3,
         }}
       >
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          gap={4}
-          sx={{ backgroundColor: "rgba(0,0,0,0.5)", padding: "40px", borderRadius: "12px" }}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
+          <Typography
+            sx={{
+              fontSize: "13px",
+              letterSpacing: "6px",
+              color: "#E8C87A",
+              textTransform: "uppercase",
+              mb: 3,
+            }}
           >
-            <Typography
-              variant="h2"
-              textAlign="center"
-              color="#FFFFFF"
-              fontWeight={700}
-              maxWidth="700px"
-            >
-              The magical world of Georgian culture in "Chacha club"
-            </Typography>
-          </motion.div>
+            Добро пожаловать в
+          </Typography>
+        </motion.div>
 
-          <Box display="flex" gap={4}>
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.5 }}
-            >
-              <Button
-                variant="contained"
-                onClick={handleScroll}
-                sx={{
-                  backgroundColor: "#8B2331",
-                  "&:hover": { backgroundColor: "#6e1c27" },
-                  fontSize: "18px",
-                  px: 4,
-                  py: 1.5,
-                }}
-              >
-                Menu
-              </Button>
-            </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.4 }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: "52px", md: "88px", lg: "110px" },
+              fontWeight: 700,
+              color: "#fff",
+              fontFamily: "'Georgia', serif",
+              lineHeight: 1,
+              letterSpacing: "-3px",
+              mb: 3,
+              textShadow: "0 4px 40px rgba(0,0,0,0.6)",
+            }}
+          >
+            Chacha Club
+          </Typography>
+        </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 1 }}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.7 }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: "16px", md: "20px" },
+              color: "rgba(255,255,255,0.75)",
+              maxWidth: "540px",
+              lineHeight: 1.8,
+              mb: 6,
+            }}
+          >
+            Волшебный мир грузинской культуры, традиций и вкусов в самом сердце города
+          </Typography>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1 }}
+        >
+          <Box display="flex" gap={2} flexWrap="wrap" justifyContent="center">
+            <Button
+              variant="contained"
+              onClick={handleScroll}
+              sx={{
+                backgroundColor: "#8B2331",
+                "&:hover": {
+                  backgroundColor: "#6e1c27",
+                  transform: "translateY(-2px)",
+                  boxShadow: "0 8px 24px rgba(139,35,49,0.6)",
+                },
+                fontSize: "15px",
+                fontWeight: 600,
+                px: 5,
+                py: 1.8,
+                borderRadius: "50px",
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                transition: "all 0.3s",
+              }}
             >
-              <Button
-                variant="contained"
-                component={Link}
-                to="/dishes/1"
-                sx={{
-                  backgroundColor: "#8B2331",
-                  "&:hover": { backgroundColor: "#6e1c27" },
-                  fontSize: "18px",
-                  px: 4,
-                  py: 1.5,
-                }}
-              >
-                Dish of the day
-              </Button>
-            </motion.div>
+              Меню
+            </Button>
+
+            <Button
+              variant="outlined"
+              component={Link}
+              to="/dishes/1"
+              sx={{
+                borderColor: "rgba(232,200,122,0.6)",
+                color: "#E8C87A",
+                "&:hover": {
+                  borderColor: "#E8C87A",
+                  backgroundColor: "rgba(232,200,122,0.1)",
+                  transform: "translateY(-2px)",
+                },
+                fontSize: "15px",
+                fontWeight: 600,
+                px: 5,
+                py: 1.8,
+                borderRadius: "50px",
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                transition: "all 0.3s",
+              }}
+            >
+              Блюдо дня
+            </Button>
           </Box>
+        </motion.div>
+
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: "36px",
+            display: "flex",
+            gap: 1,
+          }}
+        >
+          {images.map((_, i) => (
+            <Box
+              key={i}
+              onClick={() => setCurrentImageIndex(i)}
+              sx={{
+                width: i === currentImageIndex ? "32px" : "8px",
+                height: "8px",
+                borderRadius: "4px",
+                backgroundColor:
+                  i === currentImageIndex
+                    ? "#E8C87A"
+                    : "rgba(255,255,255,0.35)",
+                cursor: "pointer",
+                transition: "all 0.4s",
+              }}
+            />
+          ))}
         </Box>
       </Box>
-    </motion.div>
+    </Box>
   );
 };
 
