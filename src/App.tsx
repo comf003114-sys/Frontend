@@ -54,16 +54,16 @@ function App() {
       <Intro />
       <About />
       <Menu search={search} onSearchChange={setSearch} />
-      <Box px={4} py={3}>
-        <FilterButtons active={priceFilter} onChange={setPriceFilter} />
-        <ProductList
-          products={filteredProducts}
-          loading={false}
-          error={null}
-          favorites={favorites}
-          onToggleFavorite={toggleFavorite}
-        />
-      </Box>
+      <Box>
+  <FilterButtons active={priceFilter} onChange={setPriceFilter} />
+  <ProductList
+    products={filteredProducts}
+    loading={false}
+    error={null}
+    favorites={favorites}
+    onToggleFavorite={toggleFavorite}
+  />
+</Box>
       <Footer />
     </Box>
   );
