@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Typography, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
@@ -7,104 +7,202 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = () => {
-    console.log("Register:", name, email, password);
+  const inputSx = {
+    mb: 2,
+    "& .MuiOutlinedInput-root": {
+      color: "#fff",
+      borderRadius: "12px",
+      backgroundColor: "rgba(255,255,255,0.04)",
+      "& fieldset": { borderColor: "rgba(255,255,255,0.08)" },
+      "&:hover fieldset": { borderColor: "rgba(139,35,49,0.6)" },
+      "&.Mui-focused fieldset": { borderColor: "#8B2331" },
+    },
+    "& input::placeholder": { color: "#444", opacity: 1 },
   };
 
   return (
     <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      minHeight="100vh"
-      sx={{ backgroundColor: "#1E1E20" }}
+      sx={{
+        minHeight: "100vh",
+        backgroundColor: "#1E1E20",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+        overflow: "hidden",
+      }}
     >
       <Box
         sx={{
-          backgroundColor: "#2a2a2c",
-          borderRadius: "12px",
-          padding: "40px",
-          width: "100%",
-          maxWidth: "400px",
-          border: "1px solid #8B2331",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          width: { xs: "0", md: "28%" },
+          height: "100%",
+          backgroundImage:
+            "url(https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=1200&fit=crop)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to right, rgba(30,30,32,0.3), rgba(30,30,32,1))",
+          },
         }}
-      >
-        <Typography variant="h4" color="#FFFFFF" textAlign="center" mb={4} fontWeight={700}>
-          Регистрация
-        </Typography>
+      />
 
-        <TextField
-          fullWidth
-          label="Имя"
-          variant="outlined"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+      <Box
+        sx={{
+          position: "absolute",
+          right: 0,
+          top: 0,
+          width: { xs: "0", md: "28%" },
+          height: "100%",
+          backgroundImage:
+            "url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=1200&fit=crop)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to left, rgba(30,30,32,0.3), rgba(30,30,32,1))",
+          },
+        }}
+      />
+
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "500px",
+          height: "500px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(139,35,49,0.08) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <Box sx={{ position: "relative", zIndex: 2, width: "100%", maxWidth: "420px", px: 3 }}>
+
+        <Box textAlign="center" mb={5}>
+          <Typography
+            component={Link}
+            to="/"
+            sx={{
+              fontSize: "22px",
+              fontWeight: 700,
+              color: "#8B2331",
+              letterSpacing: "3px",
+              fontFamily: "'Georgia', serif",
+              textDecoration: "none",
+              "&:hover": { color: "#E8C87A" },
+              transition: "color 0.3s",
+            }}
+          >
+            CHACHA CLUB
+          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, mt: 2, justifyContent: "center" }}>
+            <Box sx={{ flex: 1, height: "1px", backgroundColor: "rgba(255,255,255,0.06)" }} />
+            <Typography sx={{ fontSize: "14px" }}>🍽️</Typography>
+            <Box sx={{ flex: 1, height: "1px", backgroundColor: "rgba(255,255,255,0.06)" }} />
+          </Box>
+        </Box>
+
+        <Box
           sx={{
-            mb: 3,
-            "& .MuiOutlinedInput-root": {
-              color: "#FFFFFF",
-              "& fieldset": { borderColor: "#8B2331" },
-              "&:hover fieldset": { borderColor: "#FFFFFF" },
+            backgroundColor: "rgba(255,255,255,0.03)",
+            border: "1px solid rgba(255,255,255,0.07)",
+            borderRadius: "24px",
+            p: { xs: 4, md: 5 },
+            position: "relative",
+            overflow: "hidden",
+            "&::before": {
+              content: '""',
+              position: "absolute",
+              top: 0, left: 0, right: 0,
+              height: "2px",
+              background: "linear-gradient(90deg, transparent, #8B2331, transparent)",
             },
-            "& .MuiInputLabel-root": { color: "#AAAAAA" },
-          }}
-        />
-
-        <TextField
-          fullWidth
-          label="Email"
-          variant="outlined"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          sx={{
-            mb: 3,
-            "& .MuiOutlinedInput-root": {
-              color: "#FFFFFF",
-              "& fieldset": { borderColor: "#8B2331" },
-              "&:hover fieldset": { borderColor: "#FFFFFF" },
-            },
-            "& .MuiInputLabel-root": { color: "#AAAAAA" },
-          }}
-        />
-
-        <TextField
-          fullWidth
-          label="Пароль"
-          type="password"
-          variant="outlined"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          sx={{
-            mb: 3,
-            "& .MuiOutlinedInput-root": {
-              color: "#FFFFFF",
-              "& fieldset": { borderColor: "#8B2331" },
-              "&:hover fieldset": { borderColor: "#FFFFFF" },
-            },
-            "& .MuiInputLabel-root": { color: "#AAAAAA" },
-          }}
-        />
-
-        <Button
-          fullWidth
-          variant="contained"
-          onClick={handleSubmit}
-          sx={{
-            backgroundColor: "#8B2331",
-            "&:hover": { backgroundColor: "#6e1c27" },
-            py: 1.5,
-            fontSize: "16px",
           }}
         >
-          Зарегистрироваться
-        </Button>
+          <Typography
+            sx={{
+              fontSize: "28px",
+              fontWeight: 700,
+              color: "#fff",
+              fontFamily: "'Georgia', serif",
+              textAlign: "center",
+              mb: 1,
+            }}
+          >
+            Регистрация
+          </Typography>
+          <Typography sx={{ fontSize: "14px", color: "#444", textAlign: "center", mb: 4 }}>
+            Создайте аккаунт и откройте мир грузинской кухни
+          </Typography>
 
-        <Typography color="#AAAAAA" textAlign="center" mt={3}>
-          Уже есть аккаунт?{" "}
-          <Link to="/login" style={{ color: "#8B2331" }}>
-            Войти
-          </Link>
-        </Typography>
+          <TextField fullWidth placeholder="Имя" value={name}
+            onChange={(e) => setName(e.target.value)} sx={inputSx} />
+
+          <TextField fullWidth placeholder="Email" value={email}
+            onChange={(e) => setEmail(e.target.value)} sx={inputSx} />
+
+          <TextField fullWidth placeholder="Пароль" type="password" value={password}
+            onChange={(e) => setPassword(e.target.value)} sx={{ ...inputSx, mb: 3 }} />
+
+          <Box
+            sx={{
+              width: "100%",
+              py: 1.8,
+              borderRadius: "12px",
+              backgroundColor: "#8B2331",
+              color: "#fff",
+              fontSize: "14px",
+              fontWeight: 700,
+              letterSpacing: "2px",
+              textTransform: "uppercase",
+              textAlign: "center",
+              cursor: "pointer",
+              transition: "all 0.3s",
+              "&:hover": {
+                backgroundColor: "#6e1c27",
+                transform: "translateY(-1px)",
+                boxShadow: "0 8px 24px rgba(139,35,49,0.4)",
+              },
+            }}
+          >
+            Зарегистрироваться
+          </Box>
+
+          <Box textAlign="center" mt={3}>
+            <Typography sx={{ color: "#444", fontSize: "14px" }}>
+              Уже есть аккаунт?{" "}
+              <Box
+                component={Link}
+                to="/login"
+                sx={{
+                  color: "#8B2331",
+                  textDecoration: "none",
+                  fontWeight: 600,
+                  "&:hover": { color: "#E8C87A" },
+                  transition: "color 0.3s",
+                }}
+              >
+                Войти
+              </Box>
+            </Typography>
+          </Box>
+        </Box>
+
+        <Box display="flex" justifyContent="center" gap={2} mt={4} flexWrap="wrap">
+          {["🥘 Грузинская кухня", "🍷 Вина", "🏔️ Традиции"].map((tag) => (
+            <Typography key={tag} sx={{ fontSize: "12px", color: "#333" }}>{tag}</Typography>
+          ))}
+        </Box>
       </Box>
     </Box>
   );
