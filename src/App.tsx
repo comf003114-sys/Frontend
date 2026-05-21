@@ -19,6 +19,7 @@ import DishDetails from "./pages/DishDetails";
 import NotFound from "./pages/NotFound";
 import Favorites from "./pages/Favorites";
 import AboutPage from "./pages/AboutPage";
+import WinePage from "./pages/WinePage";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -47,23 +48,23 @@ function App() {
       return true;
     });
 
-  const favoriteProducts = allProducts.filter((p) => favorites.includes(p.id));
+  const favoriteProducts = allProducts.filter((p) =>
+    favorites.includes(p.id)
+  );
 
   const HomePage = () => (
     <Box>
       <Intro />
       <About />
       <Menu search={search} onSearchChange={setSearch} />
-      <Box>
-  <FilterButtons active={priceFilter} onChange={setPriceFilter} />
-  <ProductList
-    products={filteredProducts}
-    loading={false}
-    error={null}
-    favorites={favorites}
-    onToggleFavorite={toggleFavorite}
-  />
-</Box>
+      <FilterButtons active={priceFilter} onChange={setPriceFilter} />
+      <ProductList
+        products={filteredProducts}
+        loading={false}
+        error={null}
+        favorites={favorites}
+        onToggleFavorite={toggleFavorite}
+      />
       <Footer />
     </Box>
   );
@@ -91,6 +92,7 @@ function App() {
                 }
               />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/wine" element={<WinePage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Box>

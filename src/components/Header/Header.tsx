@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AppBar, Toolbar, Box, Typography, Badge } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 
 interface HeaderProps {
   favoritesCount: number;
@@ -10,6 +10,7 @@ interface HeaderProps {
 
 const navLinks = [
   { label: "Каталог", to: "/" },
+  { label: "Вина", to: "/wine" },
   { label: "О нас", to: "/about" },
 ];
 
@@ -23,6 +24,29 @@ const Header: React.FC<HeaderProps> = ({ favoritesCount }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isActive = (path: string) => location.pathname === path;
+
+  const linkSx = (path: string) => ({
+    px: 2.5,
+    py: 1,
+    borderRadius: "50px",
+    fontSize: "13px",
+    fontWeight: 500,
+    letterSpacing: "1.5px",
+    textTransform: "uppercase",
+    textDecoration: "none",
+    color: isActive(path) ? "#fff" : "rgba(255,255,255,0.5)",
+    backgroundColor: isActive(path) ? "rgba(139,35,49,0.2)" : "transparent",
+    border: "1px solid",
+    borderColor: isActive(path) ? "rgba(139,35,49,0.5)" : "transparent",
+    transition: "all 0.25s",
+    "&:hover": {
+      color: "#fff",
+      backgroundColor: "rgba(139,35,49,0.1)",
+      borderColor: "rgba(139,35,49,0.3)",
+    },
+  });
+
   return (
     <AppBar
       position="fixed"
@@ -34,9 +58,7 @@ const Header: React.FC<HeaderProps> = ({ favoritesCount }) => {
         borderBottom: scrolled
           ? "1px solid rgba(139,35,49,0.5)"
           : "1px solid rgba(255,255,255,0.05)",
-        boxShadow: scrolled
-          ? "0 4px 30px rgba(0,0,0,0.4)"
-          : "none",
+        boxShadow: scrolled ? "0 4px 30px rgba(0,0,0,0.4)" : "none",
         transition: "all 0.4s ease",
       }}
     >
@@ -68,74 +90,25 @@ const Header: React.FC<HeaderProps> = ({ favoritesCount }) => {
         </Typography>
 
         <Box display="flex" alignItems="center" gap={1}>
-          {navLinks.map((link) => {
-            const isActive = location.pathname === link.to;
-            return (
-              <Box
-                key={link.to}
-                component={Link}
-                to={link.to}
-                sx={{
-                  px: 2.5,
-                  py: 1,
-                  borderRadius: "50px",
-                  fontSize: "13px",
-                  fontWeight: 500,
-                  letterSpacing: "1.5px",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  color: isActive ? "#fff" : "rgba(255,255,255,0.5)",
-                  backgroundColor: isActive
-                    ? "rgba(139,35,49,0.2)"
-                    : "transparent",
-                  border: "1px solid",
-                  borderColor: isActive
-                    ? "rgba(139,35,49,0.5)"
-                    : "transparent",
-                  transition: "all 0.25s",
-                  "&:hover": {
-                    color: "#fff",
-                    backgroundColor: "rgba(139,35,49,0.1)",
-                    borderColor: "rgba(139,35,49,0.3)",
-                  },
-                }}
-              >
-                {link.label}
-              </Box>
-            );
-          })}
+          {navLinks.map((link) => (
+            <Box
+              key={link.to}
+              component={Link}
+              to={link.to}
+              sx={linkSx(link.to)}
+            >
+              {link.label}
+            </Box>
+          ))}
 
           <Box
             component={Link}
             to="/favorites"
             sx={{
-              px: 2.5,
-              py: 1,
-              borderRadius: "50px",
-              fontSize: "13px",
-              fontWeight: 500,
-              letterSpacing: "1.5px",
-              textTransform: "uppercase",
-              textDecoration: "none",
+              ...linkSx("/favorites"),
               display: "flex",
               alignItems: "center",
               gap: 1,
-              color: location.pathname === "/favorites"
-                ? "#fff"
-                : "rgba(255,255,255,0.5)",
-              backgroundColor: location.pathname === "/favorites"
-                ? "rgba(139,35,49,0.2)"
-                : "transparent",
-              border: "1px solid",
-              borderColor: location.pathname === "/favorites"
-                ? "rgba(139,35,49,0.5)"
-                : "transparent",
-              transition: "all 0.25s",
-              "&:hover": {
-                color: "#fff",
-                backgroundColor: "rgba(139,35,49,0.1)",
-                borderColor: "rgba(139,35,49,0.3)",
-              },
             }}
           >
             <Badge
@@ -150,10 +123,11 @@ const Header: React.FC<HeaderProps> = ({ favoritesCount }) => {
                 },
               }}
             >
-              {favoritesCount > 0
-                ? <FavoriteIcon sx={{ fontSize: "16px", color: "#8B2331" }} />
-                : <FavoriteBorderIcon sx={{ fontSize: "16px" }} />
-              }
+              {favoritesCount > 0 ? (
+                <FavoriteIcon sx={{ fontSize: "16px", color: "#8B2331" }} />
+              ) : (
+                <FavoriteBorderOutlinedIcon sx={{ fontSize: "16px" }} />
+              )}
             </Badge>
             Избранное
           </Box>
