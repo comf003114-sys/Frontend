@@ -20,6 +20,7 @@ import NotFound from "./pages/NotFound";
 import Favorites from "./pages/Favorites";
 import AboutPage from "./pages/AboutPage";
 import WinePage from "./pages/WinePage";
+import WineDetails from "./pages/WineDetails";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -93,6 +94,7 @@ function App() {
               />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/wine" element={<WinePage />} />
+              <Route path="/wine/:id" element={<WineDetails />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Box>
