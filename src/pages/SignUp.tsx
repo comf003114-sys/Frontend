@@ -1,11 +1,26 @@
 import { useState } from "react";
 import { Box, Typography, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
+import { register } from "../api";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleRegister = async () => {
+    try {
+      const data = await register(name, email, password);
+      if (data.message === "User registered successfully") {
+        alert("Регистрация прошла успешно! Войдите в аккаунт.");
+        window.location.href = "/login";
+      } else {
+        alert(data.message || "Ошибка регистрации");
+      }
+    } catch {
+      alert("Ошибка подключения к серверу");
+    }
+  };
 
   const inputSx = {
     mb: 2,
@@ -107,11 +122,10 @@ const SignUp = () => {
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", gap: 2, mt: 2, justifyContent: "center" }}>
             <Box sx={{ flex: 1, height: "1px", backgroundColor: "rgba(255,255,255,0.06)" }} />
-            <Typography sx={{ fontSize: "14px" }}>🍽️</Typography>
+            <Typography sx={{ fontSize: "14px" }}>🍽</Typography>
             <Box sx={{ flex: 1, height: "1px", backgroundColor: "rgba(255,255,255,0.06)" }} />
           </Box>
         </Box>
-
         <Box
           sx={{
             backgroundColor: "rgba(255,255,255,0.03)",
@@ -155,6 +169,7 @@ const SignUp = () => {
             onChange={(e) => setPassword(e.target.value)} sx={{ ...inputSx, mb: 3 }} />
 
           <Box
+            onClick={handleRegister}
             sx={{
               width: "100%",
               py: 1.8,
@@ -199,7 +214,7 @@ const SignUp = () => {
         </Box>
 
         <Box display="flex" justifyContent="center" gap={2} mt={4} flexWrap="wrap">
-          {["🥘 Грузинская кухня", "🍷 Вина", "🏔️ Традиции"].map((tag) => (
+          {["🥘 Грузинская кухня", "🍷 Вина", "🏔 Традиции"].map((tag) => (
             <Typography key={tag} sx={{ fontSize: "12px", color: "#333" }}>{tag}</Typography>
           ))}
         </Box>
