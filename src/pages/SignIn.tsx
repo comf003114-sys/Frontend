@@ -1,10 +1,25 @@
 import { useState } from "react";
 import { Box, Typography, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
+import { login } from "../api";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      const data = await login(email, password);
+      if (data.access_token) {
+        localStorage.setItem("token", data.access_token);
+        window.location.href = "/";
+      } else {
+        alert(data.message || "Ошибка входа");
+      }
+    } catch {
+      alert("Ошибка подключения к серверу");
+    }
+  };
 
   const inputSx = {
     mb: 2,
@@ -87,7 +102,6 @@ const SignIn = () => {
           pointerEvents: "none",
         }}
       />
-
       <Box
         sx={{
           position: "relative",
@@ -191,6 +205,7 @@ const SignIn = () => {
           />
 
           <Box
+            onClick={handleLogin}
             sx={{
               width: "100%",
               py: 1.8,
@@ -213,7 +228,6 @@ const SignIn = () => {
           >
             Войти
           </Box>
-
           <Box textAlign="center" mt={3}>
             <Typography sx={{ color: "#444", fontSize: "14px" }}>
               Нет аккаунта?{" "}
@@ -241,7 +255,7 @@ const SignIn = () => {
           mt={4}
           flexWrap="wrap"
         >
-          {["🥘 Грузинская кухня", "🍷 Вина", "🏔️ Традиции"].map((tag) => (
+          {["🥘 Грузинская кухня", "🍷 Вина", "🏔 Традиции"].map((tag) => (
             <Typography
               key={tag}
               sx={{
