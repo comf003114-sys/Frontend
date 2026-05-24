@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import { products as mockProducts } from "./data/products";
 import type { Product } from "./data/products";
 import Header from "./components/Header/Header";
 import Intro from "./components/Intro/Intro";
@@ -21,12 +20,14 @@ import Favorites from "./pages/Favorites";
 import AboutPage from "./pages/AboutPage";
 import WinePage from "./pages/WinePage";
 import WineDetails from "./pages/WineDetails";
+import { getDishes } from "./api";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const [search, setSearch] = useState<string>("");
   const [priceFilter, setPriceFilter] = useState<PriceFilter>("all");
-  const [allProducts] = useState<Product[]>(mockProducts);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [apiError, setApiError] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<number[]>([]);
 
   const toggleFavorite = (id: number) => {
@@ -38,6 +39,25 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    getDishes()
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const mapped: Product[] = data.map((d: any) => ({
+            id: d.id,
+            name: d.name,
+            price: d.price,
+            category: d.categoryId?.toString()  "main",
+            image: d.imageUrl  "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=300&fit=crop",
+            weight: 300,
+            time_to_cook: 20,
+          }));
+          setAllProducts(mapped);
+        }
+      })
+      .catch(() => setApiError("Не удалось загрузить меню"));
   }, []);
 
   const filteredProducts = allProducts
@@ -62,14 +82,13 @@ function App() {
       <ProductList
         products={filteredProducts}
         loading={false}
-        error={null}
+        error={apiError}
         favorites={favorites}
         onToggleFavorite={toggleFavorite}
       />
       <Footer />
     </Box>
   );
-
   return (
     <BrowserRouter>
       <AnimatePresence>
