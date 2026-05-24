@@ -1,48 +1,55 @@
-import { useState } from "react";
-import type { Review } from "../../types/review";
+import { useState, useEffect } from "react";
 import { Box, Typography, TextField, Rating } from "@mui/material";
 import ReviewCard from "../ReviewCard/ReviewCard";
+import { getReviews, createReview } from "../../api";
 
-const mockReviews: Review[] = [
-  { id: 1, dish_id: 1, user_id: 1, username: "Иван", rating: 5, comment: "Очень вкусно! Лучшее блюдо в ресторане.", createdAt: new Date("2024-01-15") },
-  { id: 2, dish_id: 1, user_id: 2, username: "Мария", rating: 4, comment: "Отличное блюдо, обязательно рекомендую!", createdAt: new Date("2024-02-20") },
-];
+interface ReviewDto {
+  id: number;
+  comment: string;
+  rating: number;
+  dishId: number;
+  userId: number;
+  username: string;
+  createdAt: string;
+}
 
 const ReviewList = ({ dishId }: { dishId: number }) => {
-  const [reviews, setReviews] = useState<Review[]>(mockReviews);
-  const [username, setUsername] = useState("");
+  const [reviews, setReviews] = useState<ReviewDto[]>([]);
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState<number>(5);
 
-  const handleSubmit = () => {
-    if (!username || !comment) return;
-    setReviews([...reviews, {
-      id: reviews.length + 1,
-      dish_id: dishId,
-      user_id: 0,
-      username,
-      rating,
-      comment,
-      createdAt: new Date(),
-    }]);
-    setUsername("");
-    setComment("");
-    setRating(5);
+  useEffect(() => {
+    getReviews(dishId).then((data) => {
+      if (Array.isArray(data)) setReviews(data);
+    });
+  }, [dishId]);
+
+  const handleSubmit = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Войдите в аккаунт чтобы оставить отзыв");
+      return;
+    }
+    if (!comment) return;
+    try {
+      await createReview(comment, rating, dishId);
+      const data = await getReviews(dishId);
+      if (Array.isArray(data)) setReviews(data);
+      setComment("");
+      setRating(5);
+    } catch {
+      alert("Ошибка при отправке отзыва");
+    }
   };
 
-  const avgRating = reviews.reduce((s, r) => s + r.rating, 0) / reviews.length;
+  const avgRating = reviews.length > 0
+    ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length
+    : 0;
 
   return (
     <Box>
       <Box display="flex" alignItems="center" justifyContent="space-between" mb={3}>
-        <Typography
-          sx={{
-            fontSize: "12px",
-            letterSpacing: "3px",
-            color: "#E8C87A",
-            textTransform: "uppercase",
-          }}
-        >
+        <Typography sx={{ fontSize: "12px", letterSpacing: "3px", color: "#E8C87A", textTransform: "uppercase" }}>
           Отзывы · {reviews.length}
         </Typography>
         <Box display="flex" alignItems="center" gap={1}>
@@ -55,7 +62,17 @@ const ReviewList = ({ dishId }: { dishId: number }) => {
       </Box>
 
       {reviews.length > 0 ? (
-        reviews.map((r) => <ReviewCard key={r.id} review={r} />)
+        reviews.map((r) => (
+          <ReviewCard key={r.id} review={{
+            id: r.id,
+            dish_id: r.dishId,
+            user_id: r.userId,
+            username: r.username,
+            rating: r.rating,
+            comment: r.comment,
+            createdAt: new Date(r.createdAt),
+          }} />
+        ))
       ) : (
         <Box textAlign="center" py={4}>
           <Typography sx={{ color: "#444", fontSize: "15px" }}>
@@ -66,8 +83,7 @@ const ReviewList = ({ dishId }: { dishId: number }) => {
 
       <Box
         sx={{
-          mt: 4,
-          p: 4,
+          mt: 4, p: 4,
           backgroundColor: "rgba(255,255,255,0.02)",
           border: "1px solid rgba(255,255,255,0.07)",
           borderRadius: "20px",
@@ -85,25 +101,6 @@ const ReviewList = ({ dishId }: { dishId: number }) => {
         <Typography sx={{ fontSize: "12px", letterSpacing: "3px", color: "#E8C87A", textTransform: "uppercase", mb: 3 }}>
           Оставить отзыв
         </Typography>
-
-        <TextField
-          fullWidth
-          placeholder="Ваше имя"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          sx={{
-            mb: 2,
-            "& .MuiOutlinedInput-root": {
-              color: "#fff",
-              borderRadius: "12px",
-              backgroundColor: "rgba(255,255,255,0.03)",
-              "& fieldset": { borderColor: "rgba(255,255,255,0.08)" },
-              "&:hover fieldset": { borderColor: "#8B2331" },
-              "&.Mui-focused fieldset": { borderColor: "#8B2331" },
-            },
-            "& input::placeholder": { color: "#444" },
-          }}
-        />
 
         <TextField
           fullWidth
@@ -125,7 +122,6 @@ const ReviewList = ({ dishId }: { dishId: number }) => {
             "& textarea::placeholder": { color: "#444" },
           }}
         />
-
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box>
             <Typography sx={{ color: "#444", fontSize: "12px", letterSpacing: "1px", textTransform: "uppercase", mb: 1 }}>
@@ -141,21 +137,17 @@ const ReviewList = ({ dishId }: { dishId: number }) => {
           <Box
             onClick={handleSubmit}
             sx={{
-              px: 4,
-              py: 1.5,
+              px: 4, py: 1.5,
               borderRadius: "50px",
-              backgroundColor: username && comment ? "#8B2331" : "rgba(255,255,255,0.05)",
-              color: username && comment ? "#fff" : "#333",
+              backgroundColor: comment ? "#8B2331" : "rgba(255,255,255,0.05)",
+              color: comment ? "#fff" : "#333",
               fontSize: "14px",
               fontWeight: 600,
               letterSpacing: "1px",
               textTransform: "uppercase",
-              cursor: username && comment ? "pointer" : "default",
+              cursor: comment ? "pointer" : "default",
               transition: "all 0.3s",
-              "&:hover": username && comment ? {
-                backgroundColor: "#6e1c27",
-                transform: "translateY(-1px)",
-              } : {},
+              "&:hover": comment ? { backgroundColor: "#6e1c27", transform: "translateY(-1px)" } : {},
             }}
           >
             Отправить
